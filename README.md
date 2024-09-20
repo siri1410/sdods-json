@@ -122,6 +122,9 @@ Bonus Tip:
 8. Deploy your app:
     - Confirm the deployment when prompted.
     - Track the rollout at the Firebase console.
+  
+    - firebase emulators:start // for local testing
+    - firebase hosting:channel:deploy sdods-json-backend
 
 ## Learn More
 
