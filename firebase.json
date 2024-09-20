@@ -1,13 +1,41 @@
 {
   "hosting": {
-    "public": "build",
+    "source": ".",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "frameworksBackend": {
+      "region": "us-central1"
+    },
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
   },
-  "functions": {
-    "source": "functions"
-  }
+  "functions": [
+    {
+      "source": "functions",
+      "runtime": "nodejs18",
+      "codebase": "default"
+    },
+    {
+      "source": "sdods-cb",
+      "codebase": "sdods-cb",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint",
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    }
+  ]
 }
