@@ -1,23 +1,55 @@
-# Settings for Backend (on Cloud Run).
-# See https://firebase.google.com/docs/app-hosting/configure#cloud-run.
-runConfig:
-  minInstances: 0
-  # maxInstances: 100
-  # concurrency: 80
-  # cpu: 1
-  # memoryMiB: 512
+name: Deploy Next.js App to Firebase Hosting
 
-# Environment variables and secrets.
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - local
+
 env:
-  # Configure environment variables.
-  # See https://firebase.google.com/docs/app-hosting/configure#user-defined-environment.
-  - variable: MESSAGE
-    value: Hello world!
-    availability:
-      - BUILD
-      - RUNTIME
+  FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
-  # Configure secrets
-  # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
-  # - variable: API_KEY
-  #   secret: myApiKeySecret
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        environment: [local, dev, prod]
+
+    steps:
+      # Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16' # Make sure this matches your Node.js version
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Build the Next.js project
+      - name: Build Next.js app
+        run: npm run build
+
+      # Deploy to Firebase Hosting
+      - name: Deploy to Firebase Hosting
+        run: |
+          if [[ "${{ matrix.environment }}" == "prod" ]]; then
+            firebase use --add <your-prod-firebase-project-id>
+            firebase deploy --only hosting
+          elif [[ "${{ matrix.environment }}" == "dev" ]]; then
+            firebase use --add <your-dev-firebase-project-id>
+            firebase deploy --only hosting
+          elif [[ "${{ matrix.environment }}" == "local" ]]; then
+            firebase use --add <your-local-firebase-project-id>
+            firebase emulators:start --only hosting
+          fi
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+

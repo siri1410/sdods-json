@@ -1,6 +1,8 @@
+// src/App.js
 import React, { useState } from 'react';
 import jsonpath from 'jsonpath';
 import './App.css';
+import { escapeHtml } from './utils/escapeHtml';
 
 function App() {
     const [jsonData, setJsonData] = useState([
@@ -77,11 +79,11 @@ function App() {
             <pre>{JSON.stringify(filteredData, null, 2)}</pre>
             <h3>Few Tips</h3>
             <ul>
-                <li><code>$..name</code> - Selects all names</li>
-                <li><code>$..amount</code> - Selects all amounts</li>
-                <li><code>$..transactions[?(@.length > 0)]</code> - Selects all transactions with size greater than 0</li>
-                <li><code>$..transactions[?(@.date > "2023-01-01")]</code> - Selects all transactions with a date after 2023-01-01</li>
-                <li><code>$[?(@.amount > 150)]</code> - Selects all items where the amount is greater than 150</li>
+                <li><code>{escapeHtml('$..name')}</code> - Selects all names</li>
+                <li><code>{escapeHtml('$..amount')}</code> - Selects all amounts</li>
+                <li><code>{escapeHtml('$..transactions[?(@.length > 0)]')}</code> - Selects all transactions with size greater than 0</li>
+                <li><code>{escapeHtml('$..transactions[?(@.date > "2023-01-01")]')}</code> - Selects all transactions with a date after 2023-01-01</li>
+                <li><code>{escapeHtml('$[?(@.amount > 150)]')}</code> - Selects all items where the amount is greater than 150</li>
             </ul>
         </div>
     );
