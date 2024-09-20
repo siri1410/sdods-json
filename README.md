@@ -1,9 +1,9 @@
-@@ -0,0 +1,111 @@
-# JSON Editor
+
+# Json Triage Editor
 
 ## Overview
 
-JSON Editor is a powerful and user-friendly web application designed to help you visualize, edit, and filter JSON data effortlessly. Built with React, it leverages the capabilities of JSONPath to provide advanced querying and manipulation of JSON structures.
+JSON Triage Editor is a powerful and user-friendly web application designed to help you visualize, edit, and filter JSON data effortlessly. Built with React, it leverages the capabilities of JSONPath to provide advanced querying and manipulation of JSON structures.
 
 ## Features
 
