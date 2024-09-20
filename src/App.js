@@ -46,7 +46,7 @@ function App() {
 
     return (
         <div className="App">
-            <h2>Triage & Evaluator</h2>
+            <h2>Triage & Evaluator v3</h2>
             <textarea
                 value={JSON.stringify(jsonData, null, 2)}
                 onChange={(e) => {
