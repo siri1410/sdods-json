@@ -104,7 +104,8 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 
 If you find this project useful, consider buying me a coffee:
 
-[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/your-username)
+[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)]([https://www.buymeacoffee.com/your-username](https://buymeacoffee.com/sireeshyard
+))
 
 ---
 
