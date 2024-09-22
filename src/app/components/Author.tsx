@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { JSONPath } from 'jsonpath-plus';
 
 const AuthorPage: React.FC = () => {
     return (

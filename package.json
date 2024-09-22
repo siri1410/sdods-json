@@ -15,7 +15,8 @@
     "next": "^14.2.13",
     "react": "^18",
     "react-dom": "^18.3.1",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "jsonpath-plus": "^9.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -24,6 +25,7 @@
     "autoprefixer": "^10.4.20",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
+    "jsonpath-plus": "^9.0.0",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.12",
     "typescript": "^5"

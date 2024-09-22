@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-
+import { JSONPath } from 'jsonpath-plus';
 interface ButtonProps {
   href: string;
   children: React.ReactNode;
@@ -25,18 +25,12 @@ const Page: React.FC = () => {
     const [jsonPathExpression, setJsonPathExpression] = useState<string>('$..*');
     const [filteredData, setFilteredData] = useState<any[]>([]);
     const [error, setError] = useState<string | null>(null);
-    const [jsonpath, setJsonpath] = useState<any>(null);
     const [suggestedJsonPaths, setSuggestedJsonPaths] = useState<{ label: string; path: string }[]>([]);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
+    const [isLoadingJsonpath, setIsLoadingJsonpath] = useState(true);
 
-    // Load jsonpath dependency
-    useEffect(() => {
-        const loadDependencies = async () => {
-            const jsonpathModule = await import('jsonpath');
-            setJsonpath(jsonpathModule.default);
-        };
-        loadDependencies();
-    }, []);
+    // Remove the jsonpath state and related useEffect
+    // {{ Removed jsonpath state and useEffect to load JSONPath }}
 
     // Function to generate suggested JSON paths
     const generateSuggestedJsonPaths = (data: any): { label: string; path: string }[] => {
@@ -71,11 +65,10 @@ const Page: React.FC = () => {
         }
     };
 
-    // Handle JSON filtering
+    // Updated handleFilter function
     const handleFilter = (): void => {
-        if (!jsonpath) return;
         try {
-            const result = jsonpath.query(jsonData, jsonPathExpression);
+            const result = JSONPath({ path: jsonPathExpression, json: jsonData });
             setFilteredData(result);
             setError(null);
         } catch (err: unknown) {

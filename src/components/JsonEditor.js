@@ -1,10 +1,19 @@
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/theme-github';
-import jsonpath from 'jsonpath';
+import { JSONPath } from 'jsonpath-plus';
 
 function JsonEditor() {
   // ... existing state variables ...
+
+  const handleFilter = () => {
+    try {
+      const result = JSONPath({ path: jsonPathQuery, json: jsonInput });
+      setFilteredOutput(result);
+    } catch (error) {
+      console.error("Invalid JSONPath Expression:", error);
+    }
+  };
 
   return (
     <div className="json-editor">
