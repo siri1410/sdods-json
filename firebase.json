@@ -18,13 +18,9 @@
   },
   "functions": [
     {
-      "source": "functions",
-      "runtime": "nodejs18",
-      "codebase": "default"
-    },
-    {
       "source": "sdods-cb",
-      "codebase": "sdods-cb",
+      "codebase": "default",
+      "runtime": "nodejs18",
       "ignore": [
         "node_modules",
         ".git",
