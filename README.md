@@ -25,7 +25,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/your-username/json-editor.git
+    git clone https://github.com/siri1410/json-editor.git
     cd json-editor
     ```
 
