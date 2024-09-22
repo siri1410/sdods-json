@@ -1,0 +1,21 @@
+.modeSelector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.modeButton {
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}

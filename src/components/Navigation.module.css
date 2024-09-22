@@ -1,0 +1,11 @@
+.nav {
+  @apply bg-gray-800 text-white py-4;
+}
+
+.navList {
+  @apply flex justify-center space-x-4;
+}
+
+.navItem {
+  @apply hover:text-gray-300 transition-colors duration-200;
+}
