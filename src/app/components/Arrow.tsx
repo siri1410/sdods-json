@@ -1,6 +1,13 @@
-export function Arrow() {
+import React from 'react';
+
+interface ArrowProps {
+  className?: string;
+}
+
+export function Arrow({ className = '' }: ArrowProps) {
   return (
     <svg
+      className={className}
       width="16"
       height="16"
       viewBox="0 0 16 16"

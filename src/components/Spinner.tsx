@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default function Spinner() {
-  return <div>Loading...</div>;
+  return <div style={{ color: 'white' }}>Loading...</div>;
 }
