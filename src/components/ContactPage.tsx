@@ -6,9 +6,13 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
+
+import { db } from '../firebase/firebaseConfig'; // Assuming you have initialized Firebase
+import { addDoc, collection } from '@firebase/firestore';
+
 
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +20,7 @@ const ContactPage: React.FC = () => {
     email: '',
     message: '',
   });
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -25,13 +30,34 @@ const ContactPage: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData);
-    // Reset form after submission
-    setFormData({ name: '', email: '', message: '' });
+    
+    try {
+      const docRef = await addDoc(collection(db, "messages"), {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        timestamp: new Date(),
+        status: "unread"
+      });
+      console.log("Document written with ID: ", docRef.id);
+      setStatus('success');
+      setFormData({ name: '', email: '', message: '' }); // Clear form on success
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      setStatus('error');
+    }
   };
+
+  useEffect(() => {
+    if (status === 'success' || status === 'error') {
+      const timer = setTimeout(() => {
+        setStatus('idle');
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -40,6 +66,16 @@ const ContactPage: React.FC = () => {
         <div className="container mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-4 text-center">Contact Us</h1>
           <p className="mb-4 text-center">Get in touch with us using the form below:</p>
+          {status === 'success' && (
+            <div className="mb-4 p-2 bg-green-100 text-green-700 rounded text-center">
+              Message sent successfully!
+            </div>
+          )}
+          {status === 'error' && (
+            <div className="mb-4 p-2 bg-red-100 text-red-700 rounded text-center">
+              An error occurred. Please try again.
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
             <div className="mb-4">
               <label htmlFor="name" className="block mb-2 font-medium">Name</label>

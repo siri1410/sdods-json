@@ -10,13 +10,14 @@
   },
   "dependencies": {
     "@genkit-ai/vertexai": "^0.5.13",
+    "firebase": "^10.13.2",
     "firebase-functions": "^6.0.1",
+    "jsonpath-plus": "^9.0.0",
     "logger": "^0.0.1",
     "next": "^14.2.13",
     "react": "^18",
     "react-dom": "^18.3.1",
-    "sharp": "^0.33.5",
-    "jsonpath-plus": "^9.0.0"
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@types/node": "^20",
