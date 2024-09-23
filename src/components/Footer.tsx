@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-700 text-center">
-          <p className="text-gray-400">&copy; 2023 JSON Triage & Evaluator. All rights reserved.</p>
+          <p className="text-gray-400">&copy; 2014 DevToolBox. All rights reserved.</p>
         </div>
       </div>
     </footer>
