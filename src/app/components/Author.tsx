@@ -1,10 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
-import { JSONPath } from 'jsonpath-plus';
+import { Header } from './Header';
+import Footer from '../../components/Footer';
 
 const AuthorPage: React.FC = () => {
     return (
+        
         <div className="container mx-auto px-4 py-8">
+             <Header />
             <h1 className="text-4xl font-bold text-center mb-8">Meet the Author</h1>
             <div className="flex flex-col md:flex-row items-center justify-center">
                 <div className="md:w-1/3 mb-8 md:mb-0">
@@ -49,6 +52,7 @@ const AuthorPage: React.FC = () => {
                     </p>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 };

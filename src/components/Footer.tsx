@@ -8,18 +8,10 @@ const Footer: React.FC = () => {
         <div className="flex flex-wrap justify-between">
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
             <h3 className="text-xl font-semibold mb-2">About Us</h3>
-            <p className="text-gray-400">JSON Triage & Evaluator v2 - A powerful tool for JSON manipulation and analysis.</p>
+            <p className="text-gray-400">Dev Tools - A powerful tool for simplifying development tasks.</p>
           </div>
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
             <h3 className="text-xl font-semibold mb-2">Quick Links</h3>
-            <ul className="space-y-2">
-              <li><Link href="/" className="text-gray-400 hover:text-white">Home</Link></li>
-              <li><Link href="/contact" className="text-gray-400 hover:text-white">Contact</Link></li>
-              <li><Link href="/author" className="text-gray-400 hover:text-white">Author</Link></li>
-              <li><Link href="/isr" className="text-gray-400 hover:text-white">ISR Demo</Link></li>
-              <li><Link href="/ssg" className="text-gray-400 hover:text-white">SSG</Link></li>
-              <li><Link href="/ssr" className="text-gray-400 hover:text-white">SSR</Link></li>
-            </ul>
           </div>
           <div className="w-full md:w-1/3">
             <h3 className="text-xl font-semibold mb-2">Contact Us</h3>

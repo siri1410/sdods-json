@@ -5,8 +5,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'SDODS JSON Editor',
-  description: 'JSON editor for SDODS data',
+  title: 'DevToolBox',
+  description: 'This is a collection of tools to help with development.',
 }
 
 export default function RootLayout({
