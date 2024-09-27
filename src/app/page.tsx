@@ -5,9 +5,9 @@ import { escapeHtml } from "../utils/escapeHtml";
 import Spinner from "../components/Spinner";
 import Image from "next/image";
 import Link from "next/link";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { JSONPath } from "jsonpath-plus";
+import Header from "./components/layout/Header";
 
 interface ButtonProps {
   href: string;

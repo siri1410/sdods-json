@@ -7,12 +7,12 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Header from './Header';
-import Footer from './Footer';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../../firebase/firebaseConfig';
 
-import { db } from '../firebase/firebaseConfig'; // Assuming you have initialized Firebase
-import { addDoc, collection } from '@firebase/firestore';
-
+// Remove duplicate imports and adjust import paths
+import Header from '../../app/components/layout/Header';
+import Footer from '../../app/components/layout/Footer';
 
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -32,7 +32,6 @@ const ContactPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
     try {
       const docRef = await addDoc(collection(db, "messages"), {
         name: formData.name,

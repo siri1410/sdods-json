@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import Navigation from './Navigation';
-import LogoAndBranding from './LogoAndBranding';
+import Navigation from '../../../components/Navigation';
+import LogoAndBranding from '../../../components/LogoAndBranding';
 
 const Header: React.FC = () => {
   return (
