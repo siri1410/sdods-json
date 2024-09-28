@@ -1,30 +1,33 @@
+"use client";
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { Language } from '@/translations';
 
 // Define the LanguageContextType
-type LanguageContextType = {
-  language: string;
-  setLanguage: React.Dispatch<React.SetStateAction<string>>;
-};
+interface LanguageContextType {
+  language: Language;
+  setLanguage: (language: Language) => void;
+}
 
 export const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState<Language>('en');
 
   useEffect(() => {
-    const savedLanguage = localStorage.getItem('language');
+    const savedLanguage = localStorage.getItem('language') as Language | null;
     if (savedLanguage) {
       setLanguage(savedLanguage);
     }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('language', language);
-    // Here you would typically update your i18n library with the new language
-  }, [language]);
+  const updateLanguage = (newLanguage: Language) => {
+    setLanguage(newLanguage);
+    localStorage.setItem('language', newLanguage);
+  };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage }}>
+    <LanguageContext.Provider value={{ language, setLanguage: updateLanguage }}>
       {children}
     </LanguageContext.Provider>
   );
@@ -33,8 +36,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (context === undefined) {
-    console.warn('useLanguage is used outside of a LanguageProvider. Defaulting to English.');
-    return { language: 'en', setLanguage: () => {} };
+    throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;
 };
