@@ -3,21 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon --watch server.js --exec next dev",
+    "dev": "next dev",
     "build": "next build",
-    "lint": "next lint",
-    "kill-port": "npx kill-port 3000",
-    "start": "kill-port && next start",
-    "deploy": "firebase deploy --only hosting",
-    "deploy:local": "firebase use --add sdods-json && firebase deploy --only hosting"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "@genkit-ai/vertexai": "^0.5.13",
+    "@genkit-ai/vertexai": "^0.5.14",
     "firebase-functions": "^6.0.1",
     "jsonpath-plus": "^9.0.0",
-    "logger": "^0.0.1",
     "next": "^14.2.13",
-    "react": "^18",
+    "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sharp": "^0.33.5"
   },
@@ -27,21 +23,15 @@
     "@firebase/firestore": "^4.7.2",
     "@mui/material": "^6.1.1",
     "@types/node": "^20",
-    "@types/react": "^18.3.9",
+    "@types/react": "^18.3.10",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.20",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.4",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.13",
     "firebase": "^10.13.2",
-    "jsonpath-plus": "^9.0.0",
-    "kill-port": "^2.0.1",
     "lucide-react": "^0.446.0",
-    "nodemon": "^3.1.7",
     "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.12",
+    "tailwindcss": "^3.4.13",
     "typescript": "^5"
-  },
-  "resolutions": {
-    "@types/react": "^17.0.0"
   }
 }

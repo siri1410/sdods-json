@@ -6,12 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import Footer from "../components/layout-home/Footer";
 import { JSONPath } from "jsonpath-plus";
-import Header from "./components/layout-pages/Header";
 
 interface ButtonProps {
   href: string;
   children: React.ReactNode;
-  className?: string; // Added className to ButtonProps
+  className?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({ href, children, className }) => (
@@ -24,7 +23,6 @@ const Button: React.FC<ButtonProps> = ({ href, children, className }) => (
 );
 
 const Page: React.FC = () => {
-  // State declarations
   const [jsonData, setJsonData] = useState<any>({});
   const [jsonPathExpression, setJsonPathExpression] = useState<string>("$..*");
   const [filteredData, setFilteredData] = useState<any[]>([]);
@@ -35,10 +33,6 @@ const Page: React.FC = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isLoadingJsonpath, setIsLoadingJsonpath] = useState(true);
 
-  // Remove the jsonpath state and related useEffect
-  // {{ Removed jsonpath state and useEffect to load JSONPath }}
-
-  // Function to generate suggested JSON paths
   const generateSuggestedJsonPaths = (
     data: any
   ): { label: string; path: string }[] => {
@@ -63,11 +57,9 @@ const Page: React.FC = () => {
     return paths;
   };
 
-  // Handle JSON analysis
   const handleAnalyze = async () => {
     setIsAnalyzing(true);
     try {
-      // Simulate an async operation
       await new Promise((resolve) => setTimeout(resolve, 1000));
       const newSuggestedPaths = generateSuggestedJsonPaths(jsonData);
       setSuggestedJsonPaths(newSuggestedPaths);
@@ -76,7 +68,6 @@ const Page: React.FC = () => {
     }
   };
 
-  // Updated handleFilter function
   const handleFilter = (): void => {
     try {
       const result = JSONPath({ path: jsonPathExpression, json: jsonData });
@@ -92,7 +83,6 @@ const Page: React.FC = () => {
     }
   };
 
-  // Load sample JSON data
   const handleLoadSample = (e: React.MouseEvent) => {
     e.preventDefault();
     const initialData = {
@@ -108,62 +98,30 @@ const Page: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-
       <main className="flex-grow">
-        {/* Hero Section */}
-        <section
-          id="hero"
-          className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-20"
-        >
-          <div className="container mx-auto px-4 py-12">
-            <div className="max-w-4xl mx-auto text-center mb-16">
-              <div className="text-center border-2 border-gray-300 rounded-lg p-6 mb-10">
-                <div className="text-center bg-gradient-to-r from-blue-100 to-purple-100 p-8 rounded-lg shadow-lg">
-                  <h1 className="text-6xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                    Dev ToolBox
-                  </h1>
-                  <p className="text-2xl text-gray-800 max-w-2xl mx-auto">
-                    One place for all your developer needs.
-                  </p>
-                </div>
-              </div>
+        <section id="hero" className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center mb-8">
+              <h1 className="text-4xl font-bold mb-4">Dev ToolBox</h1>
+              <p className="text-xl mb-6">One place for all your developer needs.</p>
               <Link
                 href="#json-editor"
-                className="bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-700 transition duration-300 shadow-lg hover:shadow-xl"
+                className="bg-blue-600 text-white px-6 py-3 rounded-full font-bold text-lg hover:bg-blue-700 transition duration-300 shadow-lg"
               >
                 Get Started
               </Link>
             </div>
-            <div className="flex flex-wrap justify-center gap-4 md:gap-6 max-w-5xl mx-auto">
-              <Button href="/" className="flex-grow sm:flex-1 min-w-[150px]">
-                Home
-              </Button>
-              <Button
-                href="/contact"
-                className="flex-grow sm:flex-1 min-w-[150px]"
-              >
-                Contact
-              </Button>
-              <Button
-                href="/author"
-                className="flex-grow sm:flex-1 min-w-[150px]"
-              >
-                Author
-              </Button>
-              <Button href="/isr" className="flex-grow sm:flex-1 min-w-[150px]">
-                ISR Demo
-              </Button>
-              <Button href="/ssg" className="flex-grow sm:flex-1 min-w-[150px]">
-                SSG
-              </Button>
-              <Button href="/ssr" className="flex-grow sm:flex-1 min-w-[150px]">
-                SSR
-              </Button>
+            <div className="flex flex-wrap justify-center gap-4 max-w-3xl mx-auto">
+              <Button href="/" className="flex-grow sm:flex-1">Home</Button>
+              <Button href="/contact" className="flex-grow sm:flex-1">Contact</Button>
+              <Button href="/author" className="flex-grow sm:flex-1">Author</Button>
+              <Button href="/isr" className="flex-grow sm:flex-1">ISR Demo</Button>
+              <Button href="/ssg" className="flex-grow sm:flex-1">SSG</Button>
+              <Button href="/ssr" className="flex-grow sm:flex-1">SSR</Button>
             </div>
           </div>
         </section>
 
-        {/* Feature Section */}
         <section id="features" className="py-16 bg-gray-100">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-12">
@@ -200,7 +158,6 @@ const Page: React.FC = () => {
           </div>
         </section>
 
-        {/* JSON Editor Section */}
         <section
           id="json-editor"
           className="py-16 bg-gradient-to-r from-blue-100 to-purple-100"
@@ -209,7 +166,6 @@ const Page: React.FC = () => {
             <h2 className="text-3xl font-bold text-center mb-12">
               JSON Editor
             </h2>
-            {/* Existing JSON Editor content */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="bg-white rounded-lg shadow-lg p-6">
                 <h2 className="text-2xl font-semibold mb-4">JSON Input</h2>
