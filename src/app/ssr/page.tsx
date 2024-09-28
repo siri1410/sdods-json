@@ -1,4 +1,4 @@
-import Footer from "../../components/Footer";
+import Footer from "../../components/layout-home/Footer";
 import { Header } from "../components";
 import { getDateString, getRandomUUID } from "../utils";
 

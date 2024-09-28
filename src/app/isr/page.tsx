@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function Page() {
+export default function IsrPage() {
   return (
     <main className="content">
       <h1 className="heading">ISR Demo</h1>

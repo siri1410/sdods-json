@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@genkit-ai/vertexai": "^0.5.13",
-    "firebase": "^10.13.2",
     "firebase-functions": "^6.0.1",
     "jsonpath-plus": "^9.0.0",
     "logger": "^0.0.1",
@@ -23,17 +22,22 @@
     "sharp": "^0.33.5"
   },
   "devDependencies": {
+    "@firebase/firestore": "^4.7.2",
     "@types/node": "^20",
-    "@types/react": "^18",
+    "@types/react": "^18.3.9",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.20",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
+    "firebase": "^10.13.2",
     "jsonpath-plus": "^9.0.0",
     "kill-port": "^2.0.1",
     "nodemon": "^3.1.7",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.12",
     "typescript": "^5"
+  },
+  "resolutions": {
+    "@types/react": "^17.0.0"
   }
 }

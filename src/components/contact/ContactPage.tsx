@@ -2,118 +2,137 @@
  * A contact page component that allows users to send a message.
  *
  * This component uses React functional components and hooks to manage state and handle form submissions.
+ * It now includes responsive design for better mobile experience.
  */
 
 'use client';
-
-import React, { useState, useEffect } from 'react';
-import { addDoc, collection } from 'firebase/firestore';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { User } from 'firebase/auth';
 import { db } from '../../firebase/firebaseConfig';
-
-// Remove duplicate imports and adjust import paths
-import Header from '../../app/components/layout/Header';
-import Footer from '../../app/components/layout/Footer';
+import { collection, addDoc } from 'firebase/firestore';
+import Footer from '../../app/components/layout-pages/Footer';
+import Header from '../../app/components/layout-pages/Header';
+import { onAuthStateChanged } from '../../auth/googleAuth';
 
 const ContactPage: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const docRef = await addDoc(collection(db, "messages"), {
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-        timestamp: new Date(),
-        status: "unread"
-      });
-      console.log("Document written with ID: ", docRef.id);
-      setStatus('success');
-      setFormData({ name: '', email: '', message: '' }); // Clear form on success
-    } catch (error) {
-      console.error("Error adding document: ", error);
-      setStatus('error');
-    }
-  };
+  const [user, setUser] = useState<User | null>(null);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (status === 'success' || status === 'error') {
-      const timer = setTimeout(() => {
-        setStatus('idle');
-      }, 3000);
-      return () => clearTimeout(timer);
+    const unsubscribe = onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+      if (currentUser) {
+        setName(currentUser.displayName || '');
+        setEmail(currentUser.email || '');
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!user) {
+      setError('Please sign in to send a message.');
+      return;
     }
-  }, [status]);
+
+    setIsSubmitting(true);
+    try {
+      const docRef = await addDoc(collection(db, 'messages'), {
+        name,
+        email,
+        message,
+        userId: user.uid,
+        timestamp: new Date()
+      });
+      console.log('Message sent successfully with ID:', docRef.id);
+      setMessage('');
+      setError(null);
+      alert('Message sent successfully!');
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setError('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    switch (id) {
+      case 'name':
+        setName(value);
+        break;
+      case 'email':
+        setEmail(value);
+        break;
+      case 'message':
+        setMessage(value);
+        break;
+    }
+  };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-grow">
-        <div className="container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-4 text-center">Contact Us</h1>
-          <p className="mb-4 text-center">Get in touch with us using the form below:</p>
-          {status === 'success' && (
-            <div className="mb-4 p-2 bg-green-100 text-green-700 rounded text-center">
-              Message sent successfully!
-            </div>
-          )}
-          {status === 'error' && (
-            <div className="mb-4 p-2 bg-red-100 text-red-700 rounded text-center">
-              An error occurred. Please try again.
-            </div>
-          )}
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-            <div className="mb-4">
-              <label htmlFor="name" className="block mb-2 font-medium">Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="email" className="block mb-2 font-medium">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="message" className="block mb-2 font-medium">Message</label>
-              <textarea
-                id="message"
-                name="message"
-                rows={4}
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              ></textarea>
-            </div>
-            <button type="submit" className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300">Send Message</button>
-          </form>
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+          <div className="px-6 py-8">
+            <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Contact Us</h1>
+            {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+            {!user ? (
+              <p className="text-center text-gray-600 mb-4">Please sign in to send a message.</p>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-700">Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={name}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-700">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-700">Message</label>
+                  <textarea
+                    id="message"
+                    value={message}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    rows={4}
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-md transition duration-300 ${
+                    isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
+                  }`}
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </button>
+              </form>
+            )}
+          </div>
         </div>
       </main>
       <Footer />

@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { escapeHtml } from "../utils/escapeHtml";
-import Spinner from "../components/Spinner";
+import Spinner from "../components/common/Spinner";
 import Image from "next/image";
 import Link from "next/link";
-import Footer from "../components/Footer";
+import Footer from "../components/layout-home/Footer";
 import { JSONPath } from "jsonpath-plus";
-import Header from "./components/layout/Header";
+import Header from "./components/layout-pages/Header";
 
 interface ButtonProps {
   href: string;
@@ -94,7 +93,8 @@ const Page: React.FC = () => {
   };
 
   // Load sample JSON data
-  const handleLoadSample = () => {
+  const handleLoadSample = (e: React.MouseEvent) => {
+    e.preventDefault();
     const initialData = {
       example: "This is a sample JSON object",
       number: 42,
@@ -108,7 +108,7 @@ const Page: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+
       <main className="flex-grow">
         {/* Hero Section */}
         <section
@@ -291,31 +291,31 @@ const Page: React.FC = () => {
               <ul className="list-disc pl-6 space-y-2">
                 <li>
                   <code className="bg-gray-100 px-2 py-1 rounded">
-                    {escapeHtml("$..name")}
+                    $..name
                   </code>{" "}
                   - Selects all names
                 </li>
                 <li>
                   <code className="bg-gray-100 px-2 py-1 rounded">
-                    {escapeHtml("$..amount")}
+                    $..amount
                   </code>{" "}
                   - Selects all amounts
                 </li>
                 <li>
                   <code className="bg-gray-100 px-2 py-1 rounded">
-                    {escapeHtml("$..transactions[?(@.length > 0)]")}
+                    {"$..transactions[?(@.length > 0)]"}
                   </code>{" "}
                   - Selects all transactions with size greater than 0
                 </li>
                 <li>
                   <code className="bg-gray-100 px-2 py-1 rounded">
-                    {escapeHtml('$..transactions[?(@.date > "2023-01-01")]')}
+                    {"$..transactions[?(@.date > \"2023-01-01\")]"}
                   </code>{" "}
                   - Selects all transactions with a date after 2023-01-01
                 </li>
                 <li>
                   <code className="bg-gray-100 px-2 py-1 rounded">
-                    {escapeHtml("$[?(@.amount > 150)]")}
+                    {"$[?(@.amount > 150)]"}
                   </code>{" "}
                   - Selects all items where the amount is greater than 150
                 </li>

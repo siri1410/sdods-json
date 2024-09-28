@@ -1,7 +1,6 @@
-import React from 'react';
 import Image from 'next/image';
 
-const LogoAndBranding: React.FC = () => {
+export default function LogoAndBranding() {
     return (
         <div className="flex items-center space-x-4">
             <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
@@ -10,6 +9,4 @@ const LogoAndBranding: React.FC = () => {
             <h1 className="text-2xl font-bold text-gray-800">Dev Toolbox</h1>
         </div>
     );
-};
-
-export default LogoAndBranding;
+}
