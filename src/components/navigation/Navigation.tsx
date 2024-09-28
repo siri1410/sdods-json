@@ -4,10 +4,15 @@ import { User } from 'firebase/auth'; // This import should work once we update 
 import { signInWithGoogle, signOutUser, onAuthStateChanged } from '../../auth/googleAuth';
 import LogoAndBranding from '../logo-branding/LogoAndBranding';
 import Image from 'next/image';
+import SettingsModal from '../settings/SettingsModal';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const Navigation: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [showMenu, setShowMenu] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const themeContext = useTheme();
+  const theme = themeContext ? themeContext.theme : 'light'; // Default to 'light' if context is not available
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged((currentUser) => {
@@ -34,8 +39,13 @@ const Navigation: React.FC = () => {
     }
   };
 
+  const handleOpenSettings = () => {
+    setShowSettingsModal(true);
+    setShowMenu(false);
+  };
+
   return (
-    <nav className="bg-white shadow-lg">
+    <nav className={`${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'} shadow-lg`}>
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between">
           <LogoAndBranding />
@@ -56,9 +66,9 @@ const Navigation: React.FC = () => {
                   onClick={() => setShowMenu((prevShowMenu) => !prevShowMenu)}
                 />
                 {showMenu && (
-                  <div className="absolute right-0 mt-10 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10 border border-gray-200">
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10 border border-gray-200">
                     <ul>
-                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Settings</li>
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={handleOpenSettings}>Settings</li>
                       <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={handleSignOut}>Log out</li>
                     </ul>
                   </div>
@@ -75,6 +85,9 @@ const Navigation: React.FC = () => {
           </div>
         </div>
       </div>
+      {showSettingsModal && (
+        <SettingsModal onClose={() => setShowSettingsModal(false)} />
+      )}
     </nav>
   );
 };
