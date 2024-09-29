@@ -7,11 +7,11 @@ import Header from '../../app/components/layout-pages/Header'; // Make sure this
 
 const AuthorPage: React.FC = () => {
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900">
             <main className="flex-grow">
                 <div className="container mx-auto px-4 py-8">
-                    <h1 className="text-3xl font-bold mb-4 text-center">Meet the Author</h1>
-                    <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+                    <h1 className="text-3xl font-bold mb-4 text-center text-gray-900 dark:text-white">Meet the Author</h1>
+                    <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
                         <div className="flex flex-col md:flex-row items-center justify-center">
                             <div className="md:w-1/3 mb-8 md:mb-0">
                                 <Image
@@ -23,8 +23,8 @@ const AuthorPage: React.FC = () => {
                                 />
                             </div>
                             <div className="md:w-2/3 md:pl-8">
-                                <h2 className="text-2xl font-semibold mb-4">Sireesh Yarlagadda</h2>
-                                <p className="text-lg mb-4">
+                                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">Sireesh Yarlagadda</h2>
+                                <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
                                     Sireesh Yarlagadda is a visionary technologist and business strategist, 
                                     dedicated to bridging the gap between cutting-edge technology and 
                                     real-world business challenges. With over a decade of experience in 
@@ -32,22 +32,22 @@ const AuthorPage: React.FC = () => {
                                     a driving force in helping businesses leverage technology to achieve 
                                     unprecedented growth.
                                 </p>
-                                <p className="text-lg mb-4">
+                                <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
                                     As the creator of the Triage &amp; Evaluator tool, Sireesh combines his 
                                     deep understanding of data structures with a passion for simplifying 
                                     complex processes. This innovative tool is just one example of how 
                                     he's revolutionizing the way businesses interact with and analyze their data.
                                 </p>
-                                <p className="text-lg mb-4">
+                                <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
                                     Sireesh's unique approach to problem-solving involves:
                                 </p>
-                                <ul className="list-disc list-inside mb-4 pl-4">
+                                <ul className="list-disc list-inside mb-4 pl-4 text-gray-700 dark:text-gray-300">
                                     <li>Identifying key business pain points</li>
                                     <li>Developing tailored technological solutions</li>
                                     <li>Implementing strategies for seamless integration</li>
                                     <li>Fostering a culture of continuous innovation</li>
                                 </ul>
-                                <p className="text-lg italic bg-gray-100 p-4 rounded">
+                                <p className="text-lg italic bg-gray-100 dark:bg-gray-700 p-4 rounded text-gray-700 dark:text-gray-300">
                                     "In the digital age, the synergy between business acumen and technological 
                                     prowess is not just an advantage—it's a necessity. My mission is to empower 
                                     organizations to harness this synergy, driving growth and innovation in 

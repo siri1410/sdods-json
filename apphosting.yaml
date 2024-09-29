@@ -41,13 +41,13 @@ jobs:
       - name: Deploy to Firebase Hosting
         run: |
           if [[ "${{ matrix.environment }}" == "prod" ]]; then
-            firebase use --add <your-prod-firebase-project-id>
+            firebase use --add sdods-json
             firebase deploy --only hosting
           elif [[ "${{ matrix.environment }}" == "dev" ]]; then
-            firebase use --add <your-dev-firebase-project-id>
+            firebase use --add sdods-json
             firebase deploy --only hosting
           elif [[ "${{ matrix.environment }}" == "local" ]]; then
-            firebase use --add <your-local-firebase-project-id>
+            firebase use --add sdods-json
             firebase emulators:start --only hosting
           fi
         env:
