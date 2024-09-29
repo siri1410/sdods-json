@@ -13,9 +13,8 @@ const JSONEditorPage: React.FC = () => {
     return (
         <div className="container mx-auto px-4 py-16">
             <h1 className="text-3xl font-bold mb-8">JSON Editor</h1>
-           
             <p>Welcome to the JSON Editor. Here you can edit and analyze your JSON data.</p>
-            <JsonEditor initialJson={initialJson} />
+            <JsonEditor initialJson={JSON.stringify(initialJson)} />
         </div>
     );
 };
