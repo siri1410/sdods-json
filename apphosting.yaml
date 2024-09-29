@@ -7,8 +7,17 @@ on:
       - dev
       - local
 
-env:
-  FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+env_variables:  # Use 'env_variables' instead of 'env'
+  - key: FIREBASE_TOKEN
+    value: ${{ secrets.FIREBASE_TOKEN }}
+  - key: PROJECT_ID
+    value: ${{ secrets.PROJECT_ID }}
+  - key: PROJECT_NAME
+    value: ${{ secrets.PROJECT_NAME }}
+  - key: ENVIRONMENT
+    value: ${{ github.ref == 'refs/heads/main' && 'prod' || github.ref == 'refs/heads/dev' && 'dev' || 'local' }}
+
+
 
 jobs:
   build:
