@@ -122,37 +122,40 @@ const Page: React.FC = () => {
           </div>
         </section>
 
-        <section id="features" className="py-16 bg-gray-100">
+        <section id="features" className="py-16 bg-gray-100 dark:bg-gray-800">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">
+            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">
               Key Features
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-6 rounded-lg shadow-md">
+              <div className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md">
                 <div className="text-4xl mb-4 text-blue-500">🔍</div>
-                <h3 className="text-xl font-semibold mb-2">JSON Analysis</h3>
-                <p>
+                <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-white">JSON Analysis</h3>
+                <p className="text-gray-600 dark:text-gray-300">
                   Analyze complex JSON structures with ease using our powerful
                   analysis tools.
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-md">
+              <div className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md">
                 <div className="text-4xl mb-4 text-green-500">🛠️</div>
-                <h3 className="text-xl font-semibold mb-2">
+                <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-white">
                   JSONPath Filtering
                 </h3>
-                <p>
+                <p className="text-gray-600 dark:text-gray-300">
                   Use JSONPath expressions to filter and extract specific data
                   from your JSON.
                 </p>
-                <Link href="/json-editor" className="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">
+                <Link 
+                  href="/json-editor" 
+                  className="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
+                >
                   Try JSON Editor
                 </Link>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-md">
+              <div className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md">
                 <div className="text-4xl mb-4 text-purple-500">📊</div>
-                <h3 className="text-xl font-semibold mb-2">Visualization</h3>
-                <p>
+                <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-white">Visualization</h3>
+                <p className="text-gray-600 dark:text-gray-300">
                   Visualize your JSON data with interactive charts and graphs
                   for better insights.
                 </p>
