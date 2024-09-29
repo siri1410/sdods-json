@@ -1,14 +1,17 @@
 "use client";
 
 import React from 'react';
-import Navigation from '../../../components/navigation/Navigation';
+import styles from './Header.module.css';
 
-const Header: React.FC = () => {
+function Header() {
   return (
     <header>
-      <Navigation />
+      <div className={styles.scrollingAlert}>
+        <p>Breaking News: Our latest product has launched! Check it out now!</p>
+      </div>
+      {/* Other header content */}
     </header>
   );
-};
+}
 
 export default Header;

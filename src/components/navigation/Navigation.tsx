@@ -70,12 +70,12 @@ const Navigation: React.FC = () => {
             {user ? (
               <div className="flex items-center relative">
                 <Image
-                  src={user.photoURL || "/images/default-user-icon.png"}
+                  src={user.photoURL || "/images/user-icon.png"}
                   alt="User Icon"
                   width={32}
                   height={32}
                   className="rounded-full cursor-pointer"
-                  onClick={() => setShowMenu((prevShowMenu) => !prevShowMenu)}
+                  onClick={() => setShowMenu((prevShowMenu: boolean) => !prevShowMenu)}
                 />
                 {showMenu && (
                   <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-700 rounded-md overflow-hidden shadow-xl z-10 border border-gray-200 dark:border-gray-600">

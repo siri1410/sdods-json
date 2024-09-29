@@ -1,17 +1,38 @@
-import AceEditor from 'react-ace';
-import 'ace-builds/src-noconflict/mode-json';
-import 'ace-builds/src-noconflict/theme-github';
+"use client";
+
+import dynamic from 'next/dynamic';
+import { useState, useEffect } from 'react';
 import { JSONPath } from 'jsonpath-plus';
 
+const AceEditor = dynamic(
+  async () => {
+    const ace = await import('react-ace');
+    await import('ace-builds/src-noconflict/mode-json');
+    await import('ace-builds/src-noconflict/theme-github');
+    return ace;
+  },
+  { ssr: false }
+);
+
 function JsonEditor() {
-  // ... existing state variables ...
+  const [jsonInput, setJsonInput] = useState('');
+  const [jsonPathQuery, setJsonPathQuery] = useState('');
+  const [filteredOutput, setFilteredOutput] = useState('');
+  const [removeEmptyArrays, setRemoveEmptyArrays] = useState(false);
+  const [removeNullValues, setRemoveNullValues] = useState(false);
+  const [removeEmptyStrings, setRemoveEmptyStrings] = useState(false);
+
+  const handleInputChange = (value) => {
+    setJsonInput(value);
+  };
 
   const handleFilter = () => {
     try {
-      const result = JSONPath({ path: jsonPathQuery, json: jsonInput });
-      setFilteredOutput(result);
+      const result = JSONPath({ path: jsonPathQuery, json: JSON.parse(jsonInput) });
+      setFilteredOutput(JSON.stringify(result, null, 2));
     } catch (error) {
-      console.error("Invalid JSONPath Expression:", error);
+      console.error("Invalid JSONPath Expression or JSON input:", error);
+      setFilteredOutput('Error: Invalid JSONPath Expression or JSON input');
     }
   };
 

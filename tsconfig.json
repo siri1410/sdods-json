@@ -25,13 +25,16 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "src/components/json-editor/JsonEditor.js",
     ".next/types/**/*.ts"
   ],
   "exclude": [
