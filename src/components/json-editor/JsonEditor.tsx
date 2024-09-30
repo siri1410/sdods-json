@@ -1,115 +1,148 @@
-"use client";
-
-import { useState, useCallback } from 'react';
-import { JSONEditor, Content } from 'vanilla-jsoneditor';
-import { JSONPath } from 'jsonpath-plus';
+import React, { useState, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import styles from './JsonEditor.module.css';
 import Footer from '../layout-pages/Footer';
+import JSONEditorReact from 'react-json-editor-ajrm';
+import { ErrorBoundary } from 'react-error-boundary';
+import Image from 'next/image';
 
-interface JsonEditorProps {
+type JSONEditorProps = React.ComponentProps<typeof JSONEditorReact>;
+
+const DynamicJSONEditor = dynamic<JSONEditorProps>(
+  () => import('react-json-editor-ajrm').then((mod) => mod.default),
+  { ssr: false }
+);
+
+interface JsonEditorComponentProps {
   initialJson: object;
 }
 
-const JsonEditor: React.FC<JsonEditorProps> = ({ initialJson }) => {
+const JsonEditor: React.FC<JsonEditorComponentProps> = ({ initialJson }) => {
   const [jsonData, setJsonData] = useState<object>(initialJson);
-  const [editor, setEditor] = useState<JSONEditor | null>(null);
-  const [jsonPathQuery, setJsonPathQuery] = useState<string>('');
-  const [filteredOutput, setFilteredOutput] = useState<string>('');
-  const [copyStatus, setCopyStatus] = useState<string>('');
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [isFormatted, setIsFormatted] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [locale, setLocale] = useState<any>(null);
+  const [copyMessage, setCopyMessage] = useState<string>('');
 
-  const refContainer = useCallback((node: HTMLDivElement) => {
-    if (node !== null) {
-      const ed = new JSONEditor({
-        target: node,
-        props: {
-          content: { json: jsonData },
-          onChange: (content: Content) => {
-            if ('json' in content && content.json !== undefined) {
-              setJsonData(content.json as object);
-            }
-          },
-        }
+  const editorRef = useRef(null);
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', isDarkMode);
+  }, [isDarkMode]);
+
+  useEffect(() => {
+    import('react-json-editor-ajrm/locale/en')
+      .then((module) => {
+        setLocale(module.default);
+      })
+      .catch((error) => {
+        console.error('Error loading locale:', error);
       });
-      setEditor(ed);
-    }
-  }, [jsonData]);
+  }, []);
 
-  const handleFormat = () => {
-    if (editor) {
-      const content = editor.get();
-      if ('json' in content && content.json !== undefined) {
-        const formattedJson = JSON.stringify(content.json, null, 2);
-        editor.set({ json: JSON.parse(formattedJson) });
-      }
+  const handleJsonChange = (data: { jsObject?: object; json?: string; error?: any }) => {
+    if (data.jsObject) {
+      setJsonData(data.jsObject);
+      setError(null);
+    } else if (data.error) {
+      setError(data.error.reason || 'Invalid JSON');
     }
   };
 
-  const handleMinify = () => {
-    if (editor) {
-      const content = editor.get();
-      if ('json' in content && content.json !== undefined) {
-        const minifiedJson = JSON.stringify(content.json);
-        editor.set({ json: JSON.parse(minifiedJson) });
-      }
+  const handleFormat = () => {
+    try {
+      // Parse and stringify the JSON to ensure it's valid
+      const formattedJson = JSON.parse(JSON.stringify(jsonData, null, isFormatted ? 0 : 2));
+      setJsonData(formattedJson);
+      setIsFormatted(!isFormatted);
+    } catch (error) {
+      console.error('Error formatting JSON:', error);
+      // Optionally, you can show an error message to the user here
     }
   };
 
   const handleCopy = async () => {
-    if (editor) {
-      const content = editor.get();
-      if ('json' in content && content.json !== undefined) {
-        try {
-          await navigator.clipboard.writeText(JSON.stringify(content.json, null, 2));
-          setCopyStatus('Copied!');
-          setTimeout(() => setCopyStatus(''), 2000);
-        } catch (err) {
-          console.error('Failed to copy: ', err);
-          setCopyStatus('Copy failed');
-          setTimeout(() => setCopyStatus(''), 2000);
-        }
-      }
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(jsonData, null, isFormatted ? 2 : undefined));
+      setCopyMessage('Copied!');
+      setTimeout(() => setCopyMessage(''), 2000);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+      setCopyMessage('Failed to copy');
+      setTimeout(() => setCopyMessage(''), 2000);
     }
   };
 
-  const handleFilter = () => {
-    try {
-      const result = JSONPath({ path: jsonPathQuery, json: jsonData });
-      setFilteredOutput(JSON.stringify(result, null, 2));
-    } catch (error) {
-      console.error("Invalid JSONPath Expression or JSON input:", error);
-      setFilteredOutput('Error: Invalid JSONPath Expression or JSON input');
-    }
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
   };
+
+  if (!locale) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className={styles.jsonEditorContainer}>
+    <div className={`${styles.jsonEditorContainer} ${isDarkMode ? styles.darkMode : ''}`}>
       <section className={styles.jsonEditorSection}>
         <div className={styles.container}>
-          <h2 className={styles.title}>JSON Editor</h2>
-          <div className={styles.editorGrid}>
-            <div className={styles.editorCard}>
-              <h2 className={styles.cardTitle}>JSON Input</h2>
-              <div ref={refContainer} className={styles.jsonEditorArea}></div>
-              <div className={styles.buttonGroup}>
-                <button className={styles.button} onClick={handleFormat}>Format</button>
-                <button className={styles.button} onClick={handleMinify}>Minify</button>
-                <button className={styles.button} onClick={handleCopy}>
-                  {copyStatus || 'Copy'}
-                </button>
-              </div>
-            </div>
-            <div className={styles.editorCard}>
-              <h2 className={styles.cardTitle}>JSONPath Filter</h2>
+          <h1 className={styles.title}>Modern JSON Editor</h1>
+          <div className={styles.controls}>
+            <label className={styles.switch}>
               <input
-                type="text"
-                value={jsonPathQuery}
-                onChange={(e) => setJsonPathQuery(e.target.value)}
-                className={styles.input}
-                placeholder="Enter JSONPath query"
+                type="checkbox"
+                checked={isDarkMode}
+                onChange={toggleTheme}
               />
-              <button className={styles.button} onClick={handleFilter}>Filter</button>
-              <pre className={styles.filteredDataOutput}>{filteredOutput}</pre>
-            </div>
+              <span className={styles.slider}>
+                <span className={styles.sliderIcon}>
+                  {isDarkMode ? '🌙' : '☀️'}
+                </span>
+              </span>
+            </label>
+            <button onClick={handleFormat} className={styles.iconButton}>
+              <Image
+                src="/images/icons/format.png"
+                alt="Format"
+                width={24}
+                height={24}
+              />
+            </button>
+            <button onClick={handleCopy} className={styles.button}>
+              Copy
+              {copyMessage && <span className={styles.copyMessage}>{copyMessage}</span>}
+            </button>
+          </div>
+          <div className={styles.editorWrapper}>
+            {error && <div className={styles.error}>{error}</div>}
+            {locale ? (
+              <ErrorBoundary fallbackRender={() => <div>Something went wrong with the JSON editor. Please try again.</div>}>
+                <DynamicJSONEditor
+                  key={isDarkMode ? 'dark' : 'light'} // Add a key prop to force re-render on theme change
+                  id="jsonEditor"
+                  placeholder={jsonData}
+                  locale={locale}
+                  onChange={handleJsonChange}
+                  // Remove the ref prop as it's not supported by JSONInputProperties
+                  theme={isDarkMode ? 'dark_vscode_tribute' : 'light_mitsuketa_tribute'}
+                  colors={{
+                    default: isDarkMode ? '#d4d4d4' : '#000000',
+                    background: isDarkMode ? '#1e1e1e' : '#ffffff',
+                    background_warning: '#ffd700',
+                    string: '#00ff00',
+                    number: '#ffab00',
+                    colon: '#ff00ff',
+                    keys: '#59a5d8',
+                    keys_whiteSpace: '#835fb6',
+                    primitive: '#ff5500'
+                  }}
+                  height="400px"
+                  width="100%"
+                />
+              </ErrorBoundary>
+            ) : (
+              <div>Loading editor...</div>
+            )}
           </div>
         </div>
       </section>
@@ -119,17 +152,3 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ initialJson }) => {
 };
 
 export default JsonEditor;
-
-
-
-function setCopyStatus(status: string) {
-  navigator.clipboard.writeText(status);
-  setTimeout(() => setCopyStatus(''), 2000);
-}
-
-
-
-function setFilteredOutput(arg0: string) {
-  throw new Error('Function not implemented.');
-}
-

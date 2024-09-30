@@ -18,12 +18,16 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={`flex flex-col min-h-screen ${inter.className}`}>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 bg-blue-500 text-white p-2">
+          Skip to main content
+        </a>
         <ThemeProvider>
           <LanguageProvider>
             <Navigation />
-            <main className="flex-grow">
+            <main id="main-content" className="flex-grow">
               {children}
             </main>
+            <Footer />
           </LanguageProvider>
         </ThemeProvider>
       </body>

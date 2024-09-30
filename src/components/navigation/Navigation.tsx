@@ -9,7 +9,6 @@ import Image from 'next/image';
 import SettingsModal from '../settings/SettingsModal';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Menu, Globe } from 'lucide-react';
-import { PersonCircle } from 'react-bootstrap-icons'; // Import the PersonCircle icon
 
 const navClasses = {
   container: "bg-white dark:bg-gray-800 shadow-lg transition-colors duration-200",
@@ -27,6 +26,7 @@ const Navigation: React.FC = () => {
   const { theme } = useTheme();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [language, setLanguage] = useState('en');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged((currentUser) => {
@@ -64,15 +64,28 @@ const Navigation: React.FC = () => {
   };
 
   return (
-    <nav className={`bg-white dark:bg-gray-800 shadow-lg transition-colors duration-200`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
+    <nav className={navClasses.container} role="navigation" aria-label="Main Navigation">
+      <div className={navClasses.inner}>
+        <div className={navClasses.content}>
           <LogoAndBranding />
-          <ul className="hidden md:flex space-x-4">
-            <li><Link href="/" className="text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150">Home</Link></li>
-            <li><Link href="/contact" className="text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150">Contact</Link></li>
-            <li><Link href="/author" className="text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150">About</Link></li>
-          </ul>
+          <button
+            className={navClasses.menuButton}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-expanded={isMenuOpen}
+            aria-controls="main-menu"
+          >
+            <Menu aria-hidden="true" />
+            <span className="sr-only">Toggle menu</span>
+          </button>
+          <div
+            id="main-menu"
+            className={`${navClasses.navLinks} ${isMenuOpen ? 'block' : 'hidden'}`}
+          >
+            <Link href="/" className={navClasses.navLink}>Home</Link>
+            <Link href="/contact" className={navClasses.navLink}>Contact</Link>
+            <Link href="/author" className={navClasses.navLink}>Author</Link>
+            {/* Add more navigation links */}
+          </div>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <Globe className="h-5 w-5 text-gray-500 dark:text-gray-400" />

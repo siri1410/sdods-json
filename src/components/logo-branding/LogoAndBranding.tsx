@@ -1,18 +1,12 @@
 import Image from 'next/image';
 
-export default function LogoAndBranding() {
+const LogoAndBranding: React.FC = () => {
     return (
-        <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                <Image 
-                    src="/images/sdods-tools.jpeg" 
-                    alt="SDODS Tools" 
-                    width={48} 
-                    height={48} 
-                    className="rounded-full" 
-                />
-            </div>
-            <h1 className="text-2xl font-bold text-gray-800">Dev Toolbox</h1>
+        <div className="flex items-center">
+            <Image src="/images/sdods-tools.jpeg" alt="DevToolBox " width={40} height={40} />
+            <span className="ml-2 text-xl font-bold">Dev ToolBox</span>
         </div>
     );
-}
+};
+
+export default LogoAndBranding;

@@ -11,6 +11,7 @@
   "dependencies": {
     "@genkit-ai/vertexai": "^0.5.14",
     "ace-builds": "^1.22.0",
+    "ajv": "^8.17.1",
     "firebase-functions": "^6.0.1",
     "next": "^14.2.13",
     "react": "^18.3.1",
@@ -28,6 +29,7 @@
     "@types/node": "^20",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18",
+    "@types/react-json-editor-ajrm": "^2.5.6",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.13",
@@ -36,6 +38,8 @@
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.446.0",
     "postcss": "^8.4.47",
+    "react-error-boundary": "^4.0.13",
+    "react-json-editor-ajrm": "^2.5.14",
     "tailwindcss": "^3.4.13",
     "typescript": "^5",
     "vanilla-jsoneditor": "^1.0.4"

@@ -93,6 +93,7 @@ const ContactPage: React.FC = () => {
                   <input
                     type="text"
                     id="name"
+                    name="name"
                     value={name}
                     onChange={handleInputChange}
                     required
