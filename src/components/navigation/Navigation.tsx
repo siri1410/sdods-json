@@ -9,6 +9,7 @@ import Image from 'next/image';
 import SettingsModal from '../settings/SettingsModal';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Menu, Globe } from 'lucide-react';
+import { PersonCircle } from 'react-bootstrap-icons'; // Import the PersonCircle icon
 
 const navClasses = {
   container: "bg-white dark:bg-gray-800 shadow-lg transition-colors duration-200",
